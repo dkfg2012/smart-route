@@ -1,0 +1,69 @@
+model_list:
+  - model_name: device-general
+    litellm_params:
+      model: ollama/${OLLAMA_DEVICE_MODEL}
+      api_base: ${OLLAMA_HOST}
+    model_info:
+      tier: device
+      max_tokens: 8192
+      cost_per_1k_tokens: 0.0
+
+  - model_name: edge-flash
+    litellm_params:
+      model: openai/${VLLM_EDGE_MODEL}
+      api_base: ${VLLM_HOST}/v1
+      api_key: none
+    model_info:
+      tier: edge
+      max_tokens: 131072
+      cost_per_1k_tokens: 0.0
+
+  - model_name: cloud-pro
+    litellm_params:
+      model: deepseek/${DEEPSEEK_CLOUD_MODEL}
+      api_key: ${DEEPSEEK_API_KEY}
+      api_base: ${DEEPSEEK_API_BASE}
+    model_info:
+      tier: cloud
+      max_tokens: 1048576
+      cost_per_1k_tokens: 0.00348
+
+  - model_name: cloud-flash
+    litellm_params:
+      model: deepseek/${DEEPSEEK_FLASH_MODEL}
+      api_key: ${DEEPSEEK_API_KEY}
+      api_base: ${DEEPSEEK_API_BASE}
+    model_info:
+      tier: cloud
+      max_tokens: 1048576
+      cost_per_1k_tokens: 0.00028
+
+router_settings:
+  routing_strategy: custom
+  num_retries: 2
+  retry_after: 5
+  fallbacks:
+    - device-general: [edge-flash]
+    - edge-flash: [cloud-flash]
+  context_window_fallbacks:
+    - device-general: [edge-flash, cloud-flash]
+    - edge-flash: [cloud-pro]
+  timeout: 120
+
+litellm_settings:
+  drop_params: true
+  set_verbose: false
+  cache: true
+  cache_params:
+    type: redis
+    host: redis
+    port: 6379
+
+general_settings:
+  master_key: ${LITELLM_MASTER_KEY}
+  database_url: ${DATABASE_URL}
+  store_model_in_db: true
+  proxy_budget_rescheduler_min_time: 60
+
+prometheus_port: 4001
+

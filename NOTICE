@@ -1,0 +1,11 @@
+Hybrid Router
+Copyright 2026 Hybrid Router contributors
+
+This product includes software developed by the Hybrid Router project
+(https://github.com/hybrid-router/hybrid-router-oss).
+
+This project uses the following open-source components:
+
+- semantic-router: https://github.com/aurelio-labs/semantic-router (MIT License)
+- RouteLLM: https://github.com/lm-sys/RouteLLM (Apache 2.0 License)
+- LiteLLM: https://github.com/BerriAI/litellm (MIT License)

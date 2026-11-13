@@ -1,0 +1,17 @@
+litellm[proxy]==1.*
+torch==2.5.1+cpu
+semantic-router
+routellm
+modelscope
+sentence-transformers
+tiktoken
+fastapi>=0.110
+uvicorn[standard]
+redis[hiredis]
+redisvl
+httpx
+pydantic>=2.0
+python-dotenv
+prometheus-client
+structlog
+tenacity
